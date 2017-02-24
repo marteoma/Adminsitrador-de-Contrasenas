@@ -11,6 +11,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import javax.swing.JOptionPane;
+import datos.Contraseña;
+import datos.Lista;
 
 /**
  *
@@ -38,8 +40,8 @@ public class Lectura_Escritura {
                     String descripcion = tokenizer.nextToken();
                     String contrasena = tokenizer.nextToken();
                     String flag = tokenizer.nextToken();
-                    Contraseña contra = new Contraseña(nombre, descripcion, contrasena, flag);
-                    listEstudiante.add(contra);
+                 //   Contraseña contra = new Contraseña(nombre, descripcion, contrasena, flag);
+                   // listEstudiante.add(contra);
                 }
                 linea = lector.readLine();
             }

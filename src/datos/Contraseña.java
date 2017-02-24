@@ -1,0 +1,96 @@
+package datos;
+
+/**
+ *
+ * @author Carlos Asprilla
+ */
+public class Contraseña {
+    // ATRIBUTOS/////////////////
+    private String nombre;
+    private String contraseña;
+    private String descripcion;
+    private char flag;
+    //////////// METODOS///////////
+    
+    
+    public Contraseña(String nom , String contrase, String descripc , char fla){
+        nombre = nom;
+        contraseña = contrase;
+        descripcion = descripc;
+        flag = fla;
+                
+    }
+
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    /**
+     * @return the contraseña
+     */
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    /**
+     * @param contraseña the contraseña to set
+     */
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+
+    /**
+     * @return the descripcion
+     */
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    /**
+     * @param descripcion the descripcion to set
+     */
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    /**
+     * @return the flag
+     */
+    public char getFlag() {
+        return flag;
+    }
+
+    /**
+     * @param flag the flag to set
+     */
+    public void setFlag(char flag) {
+        this.flag = flag;
+    }
+    
+    @Override
+     public String toString() {
+
+        return "Nombre: " + nombre + " Descripcion: " + descripcion + " Contraseña: " + contraseña+ "Flag"+ flag;
+    }
+     
+     @Override
+     public boolean equals(Object contraseña){
+         if(contraseña instanceof Contraseña){
+             return (((Contraseña) contraseña).getContraseña().equals(this.contraseña) &&
+                     ((Contraseña) contraseña).getDescripcion().equals(this.descripcion) &&
+                     ((Contraseña) contraseña).getNombre().equals(this.nombre) &&
+                     ((Contraseña) contraseña).getFlag() == this.flag);
+         }
+         return false;
+     }
+}
