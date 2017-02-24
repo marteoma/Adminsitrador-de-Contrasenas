@@ -5,7 +5,9 @@
  */
 package graficos;
 
+import datos.Contraseña;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -36,8 +38,6 @@ public class NuevoFrame extends javax.swing.JFrame {
         txtDescripcion = new javax.swing.JTextField();
         txtContraseña = new javax.swing.JPasswordField();
         btnAgregar = new javax.swing.JButton();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         lbNombreNuevo.setText("Nombre");
 
@@ -99,13 +99,34 @@ public class NuevoFrame extends javax.swing.JFrame {
 
     /**
      * Agrega el nuevo campo con los datos pasados en los textfield
+     *
      * @param evt Evento automático
      */
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        if(!camposValidos()){
+        if (!camposValidos()) {
             JOptionPane.showMessageDialog(null, "Hay campos vacíos",
                     "Campos vacíos", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Contraseña nueva = new Contraseña(txtNombre.getText(),
+                    txtContraseña.getText(), txtDescripcion.getText(), 'N');
+            MainFrame.contraseñas.add(nueva);
+
+            DefaultTableModel modelo =
+                    (DefaultTableModel) MainFrame.getTabla().getModel();
+
+            Object[] fila = new Object[4];
+
+            fila[0] = nueva.getNombre();
+            fila[1] = nueva.getContraseña();
+            fila[2] = nueva.getDescripcion();
+            fila[3] = nueva.getFlag();
+            
+            modelo.addRow(fila);
+
+            MainFrame.getTabla().setModel(modelo);
+
+            this.dispose();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -146,17 +167,18 @@ public class NuevoFrame extends javax.swing.JFrame {
 
     /**
      * Verifica que los campos estén llenados para poder crear una contraseña
+     *
      * @return true si los campos están bien llenados
      */
-    private boolean camposValidos(){
+    private boolean camposValidos() {
         String nombre = txtNombre.getText();
         String descripcion = txtDescripcion.getText();
         String contraseña = new String(txtContraseña.getPassword());
-        
+
         return !(nombre.isEmpty() || descripcion.isEmpty() || contraseña.isEmpty());
     }
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JLabel lbContraseñaNuevo;

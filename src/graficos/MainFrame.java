@@ -5,11 +5,20 @@
  */
 package graficos;
 
+import datos.Contraseña;
+import datos.Lista;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author hhade
  */
 public class MainFrame extends javax.swing.JFrame {
+
+    public static Lista<Contraseña> contraseñas = new Lista<>();
 
     /**
      * Creates new form MainFrame
@@ -39,14 +48,14 @@ public class MainFrame extends javax.swing.JFrame {
 
         tableContraseñas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+
             },
             new String [] {
                 "Nombre", "Contraseña", "Descripción", "Flag"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, true, false, false
@@ -77,10 +86,18 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         btnEditar.setText("EDITAR");
-        btnEditar.setEnabled(false);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("ELIMINAR");
-        btnEliminar.setEnabled(false);
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,15 +133,35 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * Abre la ventana para agregar una nueva contraseña 
-     * @param evt Evento pasado automáticamente
-     */
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        // TODO add your handling code here:
         NuevoFrame ventanaNuevo = new NuevoFrame();
         ventanaNuevo.setVisible(true);
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        DefaultTableModel model = (DefaultTableModel) tableContraseñas.getModel();
+
+        int a = tableContraseñas.getSelectedRow();
+        if (a < 0) {            
+            JOptionPane.showMessageDialog(null,
+                    "Debe seleccionar una fila de la tabla");
+        } else {
+            int confirmar = JOptionPane.showConfirmDialog(null,
+                    "Esta seguro que desea Eliminar el registro? ");
+
+            if (JOptionPane.OK_OPTION == confirmar) {
+                String contraseña = (String)model.getValueAt(a, 1);
+                contraseñas.remove(contraseña);
+                model.removeRow(a);
+                JOptionPane.showMessageDialog(null,
+                        "Registro Eliminado");
+            }
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,11 +198,15 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
 
+    public static JTable getTabla() {
+        return tableContraseñas;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tableContraseñas;
+    private static javax.swing.JTable tableContraseñas;
     // End of variables declaration//GEN-END:variables
 }

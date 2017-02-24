@@ -17,8 +17,7 @@ public class Contraseña {
         nombre = nom;
         contraseña = contrase;
         descripcion = descripc;
-        flag = fla;
-                
+        flag = fla;         
     }
 
     /**

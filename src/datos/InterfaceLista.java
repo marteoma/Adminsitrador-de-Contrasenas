@@ -21,5 +21,5 @@ public interface InterfaceLista<T> {
     
     public int size();
     
-    public T remove(int indice);
+    public void remove(String contraseña);
 }

@@ -5,6 +5,11 @@
  */
 package datos;
 
+import archivo.Lectura_Escritura;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Mateo Arboleda
@@ -43,7 +48,8 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
         }
     }
 
-    public String ToString() {
+    @Override
+    public String toString() {
 
         String str = "";
         Nodo<T> iterador = primero;
@@ -58,6 +64,7 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
         return str;
     }
 
+    @Override
     public Nodo<T> getSiguiente() {
         return primero;
     }
@@ -67,10 +74,12 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
         primero = item;
     }
 
+    @Override
     public boolean isEmpty() {
         return tamaño == 0;
     }
 
+    @Override
     public void add(T item) {
 
         Predecesor<T> ultimo = this;
@@ -78,23 +87,32 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
             ultimo = ultimo.getSiguiente();
         }
         ultimo.setSiguiente(new Nodo<>(item));
-
+        try {
+            Lectura_Escritura.Escribir(((Contraseña) item).getNombre(),
+                    ((Contraseña) item).getDescripcion(),
+                    ((Contraseña) item).getContraseña(),
+                    ((Contraseña) item).getFlag());
+        } catch (IOException ex) {
+            Logger.getLogger(Lista.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public T remove(int indice) {
+    @Override
+    public void remove(String contraseña) {
 
         Predecesor<T> previo = this;
         Nodo<T> nodo = primero;
 
-        for (int i = 0; i < indice; i++) {
-
-            previo = nodo;
-            nodo = nodo.getSiguiente();
+        for (int i = 0; i < tamaño; i++) {
+            if(get(i) instanceof Contraseña){
+                if(get(i).equals(contraseña)){
+                    previo.setSiguiente(nodo.getSiguiente());
+                }
+                
+                previo = nodo;
+                nodo = nodo.getSiguiente();
+            }
         }
-        //En este punto el nodo apunta al item que van a eliminar y previo apunta al anterior
-        //Del que van a eliminar
-        previo.setSiguiente(nodo.getSiguiente());
-        return nodo.getItem();
     }
 
     @Override

@@ -40,7 +40,6 @@ public class LoginFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setUndecorated(true);
         setResizable(false);
 
         lbMaestra.setText("CONTRASEÑA MAESTRA");
@@ -98,8 +97,13 @@ public class LoginFrame extends javax.swing.JFrame {
                     "No ha ingresado una contraseña",
                     "No hay contraseña",
                     JOptionPane.ERROR_MESSAGE);
-        }//ACÁ VA OTRO else if DE LA CONTRASEÑA INCORRECTA CUANDO SE HAGA LA CONEXIÓN
-        else{
+        }else if(!MainFrame.contraseñas.get(0).getContraseña().
+                equals(txtContraseñaMaestra.getText())){
+            JOptionPane.showMessageDialog(null, 
+                    "La contraseña ingresada no es correcta",
+                    "Contraseña Incorrecta",
+                    JOptionPane.ERROR_MESSAGE);                
+        }else{
             MainFrame ventanaPrincipal = new MainFrame();
             ventanaPrincipal.setVisible(true);
             this.dispose();//CIERRA LA VENTANA LOGIN

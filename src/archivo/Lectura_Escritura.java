@@ -26,7 +26,7 @@ public class Lectura_Escritura {
         listEstudiante = new Lista<Contraseña>();
     }
 
-    public void cargarContraseña() {
+    public static void cargarContraseña() {
         try {
             BufferedReader lector = new BufferedReader(
                     new InputStreamReader(
@@ -47,20 +47,20 @@ public class Lectura_Escritura {
             }
             lector.close();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado");
         }
     }
 
-    public void Escribir(String nombre, String descripción, String contraseña, String flag) throws IOException {
+    public static void Escribir(String nombre, String descripción, String contraseña, char flag) throws IOException {
 
         BufferedWriter out = null;
         try {
             out = new BufferedWriter(new FileWriter("src/archivo/contraseñas", true));
             out.write("\n"+nombre+";"+descripción+";"+contraseña+";"+flag);
-        } catch (Exception e) {
-    // error processing code   
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado");
         } finally {
             if (out != null) {
                 out.close();
