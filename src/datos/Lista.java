@@ -92,6 +92,7 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
             ultimo = ultimo.getSiguiente();
         }
         ultimo.setSiguiente(new Nodo<>(item));
+        tamaño++;
         
         try {
             Lectura_Escritura.Escribir(((Contraseña) item).getNombre(),
@@ -115,6 +116,7 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
             ultimo = ultimo.getSiguiente();
         }
         ultimo.setSiguiente(new Nodo<>(item));
+        tamaño++;
     }
 
     @Override

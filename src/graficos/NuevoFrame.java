@@ -109,7 +109,7 @@ public class NuevoFrame extends javax.swing.JFrame {
                     "Campos vacíos", JOptionPane.ERROR_MESSAGE);
         } else {
             Contraseña nueva = new Contraseña(txtNombre.getText(),
-                    txtContraseña.getText(), txtDescripcion.getText(), 'N');
+                    txtDescripcion.getText(), txtContraseña.getText(), 'N');
             MainFrame.contraseñas.addCompleto(nueva);
 
             DefaultTableModel modelo =

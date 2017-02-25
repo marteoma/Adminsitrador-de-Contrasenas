@@ -10,15 +10,22 @@ public class Contraseña {
     private String contraseña;
     private String descripcion;
     private char flag;
+    
+    
     //////////// METODOS///////////
     
     
-    public Contraseña(String nom , String contrase, String descripc , char fla){
+    public Contraseña(String nom , String descrip, String contra, char fla){
         nombre = nom;
-        contraseña = contrase;
-        descripcion = descripc;
+        contraseña = contra;
+        descripcion = descrip;
         flag = fla;         
     }
+    
+    /**
+     * Constructor vacío
+     */
+    public Contraseña(){}
 
     /**
      * @return the nombre

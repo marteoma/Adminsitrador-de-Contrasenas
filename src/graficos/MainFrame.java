@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author hhade
  */
-public class MainFrame extends javax.swing.JFrame {
+public final class MainFrame extends javax.swing.JFrame {
 
     public static Lista<Contraseña> contraseñas = new Lista<>();
 
@@ -25,8 +25,19 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainFrame() {
-        initComponents();
-        Lectura_Escritura.cargarContraseña();
+        initComponents();        
+        
+        DefaultTableModel modelo = (DefaultTableModel) tableContraseñas.getModel();
+        for(int i = 0; i < contraseñas.size(); i++){
+            Object[] fila = new Object[4];
+            fila[0] = contraseñas.get(i).getNombre();
+            fila[1] = contraseñas.get(i).getContraseña();
+            fila[2] = contraseñas.get(i).getDescripcion();
+            fila[3] = contraseñas.get(i).getFlag();
+            modelo.addRow(fila);
+        }
+
+        MainFrame.getTabla().setModel(modelo);
     }
 
     /**
@@ -53,14 +64,14 @@ public class MainFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Contraseña", "Descripción", "Flag"
+                "Nombre", "Contraseña", "Descripcion", "Flag"
             }
         ) {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -144,7 +155,7 @@ public class MainFrame extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tableContraseñas.getModel();
 
         int a = tableContraseñas.getSelectedRow();
-        if (a < 0) {            
+        if (a < 0) {
             JOptionPane.showMessageDialog(null,
                     "Debe seleccionar una fila de la tabla");
         } else {
@@ -152,7 +163,7 @@ public class MainFrame extends javax.swing.JFrame {
                     "Esta seguro que desea Eliminar el registro? ");
 
             if (JOptionPane.OK_OPTION == confirmar) {
-                String contraseña = (String)model.getValueAt(a, 1);
+                String contraseña = (String) model.getValueAt(a, 1);
                 contraseñas.remove(contraseña);
                 model.removeRow(a);
                 JOptionPane.showMessageDialog(null,

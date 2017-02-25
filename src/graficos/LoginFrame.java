@@ -5,6 +5,8 @@
  */
 package graficos;
 
+import archivo.Lectura_Escritura;
+import datos.Contraseña;
 import java.awt.Dialog;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -22,6 +24,7 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
+        Lectura_Escritura.cargarContraseña();
     }
 
     /**
@@ -92,21 +95,28 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
+        Contraseña maestra = new Contraseña();
+        for(int i = 0; i < MainFrame.contraseñas.size(); i++){
+            if(MainFrame.contraseñas.get(i).getFlag() == 'M'){
+                maestra = MainFrame.contraseñas.get(i);
+                break;
+            }
+        }
+        
         if(txtContraseñaMaestra.getPassword().length == 0){
             JOptionPane.showMessageDialog(null, 
                     "No ha ingresado una contraseña",
                     "No hay contraseña",
                     JOptionPane.ERROR_MESSAGE);
-        }/*else if(!MainFrame.contraseñas.get(0).getContraseña().
-                equals(txtContraseñaMaestra.getText())){
-            JOptionPane.showMessageDialog(null, 
-                    "La contraseña ingresada no es correcta",
-                    "Contraseña Incorrecta",
-                    JOptionPane.ERROR_MESSAGE);                
-        }*/else{
+        }else if(maestra.getContraseña().equals(txtContraseñaMaestra.getText())){
             MainFrame ventanaPrincipal = new MainFrame();
             ventanaPrincipal.setVisible(true);
             this.dispose();//CIERRA LA VENTANA LOGIN
+        }else{
+            JOptionPane.showMessageDialog(null,
+                    "La contraseña ingresada no es correcta",
+                    "Contraseña Incorrecta",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
