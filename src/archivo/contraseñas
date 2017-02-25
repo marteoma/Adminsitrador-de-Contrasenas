@@ -1,4 +1,2 @@
-#nombre;descripcion;contraseña;flag
-Gmail;Contraseña para gmail;123;N
-Gmail;contraseña para gmail;123;N
-Gmail;hola;123;N
+Maestra;Contraseña del sistema;123456789;M
+Gmail;Contraseña del correo de gmail;123;N

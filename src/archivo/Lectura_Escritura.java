@@ -12,19 +12,13 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import javax.swing.JOptionPane;
 import datos.Contraseña;
-import datos.Lista;
+import graficos.MainFrame;
 
 /**
  *
  * @author Mateo Arboleda
  */
 public class Lectura_Escritura {
-
-    Lista<Contraseña> listEstudiante;
-
-    public Lectura_Escritura() {
-        listEstudiante = new Lista<Contraseña>();
-    }
 
     public static void cargarContraseña() {
         try {
@@ -33,22 +27,19 @@ public class Lectura_Escritura {
                             new FileInputStream("src/archivo/contraseñas")));
             String linea = lector.readLine();
 
-            while (linea != null) {
-                if (!linea.startsWith("#")) {
-                    StringTokenizer tokenizer = new StringTokenizer(linea, ";");
-                    String nombre = tokenizer.nextToken();
-                    String descripcion = tokenizer.nextToken();
-                    String contrasena = tokenizer.nextToken();
-                    String flag = tokenizer.nextToken();
-                 //   Contraseña contra = new Contraseña(nombre, descripcion, contrasena, flag);
-                   // listEstudiante.add(contra);
-                }
+            while (linea != null) {     
+                StringTokenizer tokenizer = new StringTokenizer(linea, ";");
+                String nombre = tokenizer.nextToken();
+                String descripcion = tokenizer.nextToken();
+                String contrasena = tokenizer.nextToken();
+                String flag = tokenizer.nextToken(); 
+                Contraseña contra = new Contraseña(nombre, descripcion, contrasena, flag.charAt(0));
+                MainFrame.contraseñas.add(contra);                               
                 linea = lector.readLine();
             }
             lector.close();
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado");
         }
     }
@@ -67,5 +58,4 @@ public class Lectura_Escritura {
             }
         }
     }
-
 }

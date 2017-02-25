@@ -45,6 +45,7 @@ public class Nodo<T> implements Predecesor<T> {
      * @return the siguiente
      */
   
+    @Override
     public Nodo<T> getSiguiente() {
         return siguiente;
     }
@@ -52,6 +53,7 @@ public class Nodo<T> implements Predecesor<T> {
     /**
      * @param siguiente the siguiente to set
      */
+    @Override
     public void setSiguiente(Nodo<T> siguiente) {
         this.siguiente = siguiente;
     }

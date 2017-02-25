@@ -5,6 +5,7 @@
  */
 package graficos;
 
+import archivo.Lectura_Escritura;
 import datos.Contraseña;
 import datos.Lista;
 import javax.swing.JFrame;
@@ -25,6 +26,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     public MainFrame() {
         initComponents();
+        Lectura_Escritura.cargarContraseña();
     }
 
     /**

@@ -110,7 +110,7 @@ public class NuevoFrame extends javax.swing.JFrame {
         } else {
             Contraseña nueva = new Contraseña(txtNombre.getText(),
                     txtContraseña.getText(), txtDescripcion.getText(), 'N');
-            MainFrame.contraseñas.add(nueva);
+            MainFrame.contraseñas.addCompleto(nueva);
 
             DefaultTableModel modelo =
                     (DefaultTableModel) MainFrame.getTabla().getModel();

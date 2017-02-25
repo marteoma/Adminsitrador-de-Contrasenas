@@ -25,6 +25,7 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
     // Metodos 
     ///////////////////////////////////////////////////////////
 
+    @Override
     public boolean equals(Object list) {
         if (list instanceof Lista) {
             Lista<T> lista = (Lista) list;
@@ -79,14 +80,19 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
         return tamaño == 0;
     }
 
-    @Override
-    public void add(T item) {
+    /**
+     * Añade un objeto a la lista y al archivo
+     * Este método se usa cuando se está añadiendo una nueva contraseña
+     * @param item Objeto que se añade
+     */
+    public void addCompleto(T item) {
 
         Predecesor<T> ultimo = this;
         while (ultimo.getSiguiente() != null) {
             ultimo = ultimo.getSiguiente();
         }
         ultimo.setSiguiente(new Nodo<>(item));
+        
         try {
             Lectura_Escritura.Escribir(((Contraseña) item).getNombre(),
                     ((Contraseña) item).getDescripcion(),
@@ -95,6 +101,20 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
         } catch (IOException ex) {
             Logger.getLogger(Lista.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    /**
+     * Añada un objeto a la lsita
+     * Este metodo es para llenar la lista con las conraseñas del archivo
+     * @param item Objeto que se añade
+     */
+    @Override
+    public void add(T item){
+        Predecesor<T> ultimo = this;
+        while (ultimo.getSiguiente() != null) {
+            ultimo = ultimo.getSiguiente();
+        }
+        ultimo.setSiguiente(new Nodo<>(item));
     }
 
     @Override
@@ -140,19 +160,14 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
     }
 
     public void Editar(T objeaEditar, String contraseña) {
-
         Nodo<T> nodo = primero;
 
         while (nodo != null) {
-
             if (nodo.getItem().equals(objeaEditar)) {
                 Contraseña contraAcambiar = (Contraseña) nodo.getItem();
                 contraAcambiar.setContraseña(contraseña);
-            }
-            
+            }            
             nodo = nodo.getSiguiente();
-
         }
-
     }
 }
