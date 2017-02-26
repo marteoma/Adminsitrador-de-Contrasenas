@@ -11,6 +11,8 @@ import datos.Lista;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public final class MainFrame extends javax.swing.JFrame {
 
     public static Lista<Contraseña> contraseñas = new Lista<>();
+    Contraseña editable = null;
 
     /**
      * Creates new form MainFrame
@@ -36,8 +39,20 @@ public final class MainFrame extends javax.swing.JFrame {
             fila[3] = contraseñas.get(i).getFlag();
             modelo.addRow(fila);
         }
-
         MainFrame.getTabla().setModel(modelo);
+        
+        
+        tableContraseñas.getModel().addTableModelListener((TableModelEvent e) -> {
+            Contraseña copia = new Contraseña(editable);
+            String contraseñaNueva = (String)tableContraseñas.getModel().getValueAt(
+                            tableContraseñas.getSelectedRow(), 1);
+            contraseñas.Editar(editable, contraseñaNueva);
+            Lectura_Escritura.editar(copia,
+                editable.setContraseña(contraseñaNueva));
+        });
+          
+        
+        
     }
 
     /**
@@ -52,7 +67,6 @@ public final class MainFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableContraseñas = new javax.swing.JTable();
         btnAgregar = new javax.swing.JButton();
-        btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -71,7 +85,7 @@ public final class MainFrame extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, true, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -84,6 +98,11 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         tableContraseñas.setSelectionBackground(new java.awt.Color(255, 0, 0));
         tableContraseñas.getTableHeader().setReorderingAllowed(false);
+        tableContraseñas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableContraseñasMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableContraseñas);
         if (tableContraseñas.getColumnModel().getColumnCount() > 0) {
             tableContraseñas.getColumnModel().getColumn(0).setPreferredWidth(50);
@@ -95,13 +114,6 @@ public final class MainFrame extends javax.swing.JFrame {
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
-            }
-        });
-
-        btnEditar.setText("EDITAR");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
             }
         });
 
@@ -122,7 +134,6 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(53, 53, 53))
         );
@@ -136,9 +147,7 @@ public final class MainFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(btnAgregar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditar)
-                        .addGap(18, 18, 18)
+                        .addGap(59, 59, 59)
                         .addComponent(btnEliminar)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
@@ -165,6 +174,7 @@ public final class MainFrame extends javax.swing.JFrame {
             if (JOptionPane.OK_OPTION == confirmar) {
                 String contraseña = (String) model.getValueAt(a, 1);
                 contraseñas.remove(contraseña);
+                Lectura_Escritura.eliminar(editable);
                 model.removeRow(a);
                 JOptionPane.showMessageDialog(null,
                         "Registro Eliminado");
@@ -172,9 +182,15 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditarActionPerformed
+    private void tableContraseñasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableContraseñasMouseClicked
+        if(tableContraseñas.getSelectedRow() != -1){
+            int row = tableContraseñas.getSelectedRow();
+            editable = new Contraseña((String)tableContraseñas.getModel().getValueAt(row, 0),
+                    (String)tableContraseñas.getModel().getValueAt(row, 2),
+                    (String)tableContraseñas.getModel().getValueAt(row, 1),
+                    (Character)tableContraseñas.getModel().getValueAt(row, 3));
+        }
+    }//GEN-LAST:event_tableContraseñasMouseClicked
 
     /**
      * @param args the command line arguments
@@ -204,10 +220,8 @@ public final class MainFrame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainFrame().setVisible(true);
         });
     }
 
@@ -217,7 +231,6 @@ public final class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JTable tableContraseñas;

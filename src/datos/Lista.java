@@ -129,8 +129,7 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
             if(get(i) instanceof Contraseña){
                 if(get(i).equals(contraseña)){
                     previo.setSiguiente(nodo.getSiguiente());
-                }
-                
+                }                
                 previo = nodo;
                 nodo = nodo.getSiguiente();
             }
@@ -163,13 +162,14 @@ public class Lista<T> implements Predecesor<T>, InterfaceLista<T> {
 
     public void Editar(T objeaEditar, String contraseña) {
         Nodo<T> nodo = primero;
-
+        
         while (nodo != null) {
             if (nodo.getItem().equals(objeaEditar)) {
                 Contraseña contraAcambiar = (Contraseña) nodo.getItem();
                 contraAcambiar.setContraseña(contraseña);
+                break;
             }            
             nodo = nodo.getSiguiente();
-        }
+        }                
     }
 }

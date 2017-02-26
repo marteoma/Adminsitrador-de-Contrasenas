@@ -28,6 +28,17 @@ public class Contraseña {
     public Contraseña(){}
 
     /**
+     * Constructor de copia
+     * @param copiar Contraseña que se copiará
+     */
+    public Contraseña(Contraseña copiar){
+        nombre = copiar.getNombre();
+        descripcion = copiar.getDescripcion();
+        contraseña = copiar.getContraseña();
+        flag = copiar.getFlag();
+    }
+    
+    /**
      * @return the nombre
      */
     public String getNombre() {
@@ -50,9 +61,11 @@ public class Contraseña {
 
     /**
      * @param contraseña the contraseña to set
+     * @return La contraseña después del cambio
      */
-    public void setContraseña(String contraseña) {
+    public Contraseña setContraseña(String contraseña) {
         this.contraseña = contraseña;
+        return this;
     }
 
     /**
@@ -85,8 +98,10 @@ public class Contraseña {
     
     @Override
      public String toString() {
-
-        return "Nombre: " + nombre + " Descripcion: " + descripcion + " Contraseña: " + contraseña+ "Flag"+ flag;
+        return nombre + ";" +
+                descripcion + ";" +
+                contraseña + ";" +
+                flag;
     }
      
      @Override

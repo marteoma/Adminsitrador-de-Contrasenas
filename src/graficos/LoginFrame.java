@@ -48,7 +48,7 @@ public class LoginFrame extends javax.swing.JFrame {
         lbMaestra.setText("CONTRASEÑA MAESTRA");
         lbMaestra.setToolTipText("");
 
-        txtContraseñaMaestra.setText("contraseña");
+        txtContraseñaMaestra.setText("123456789");
         txtContraseñaMaestra.setToolTipText("");
 
         btnLogin.setText("ENTRAR");

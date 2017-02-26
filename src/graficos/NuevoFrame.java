@@ -111,7 +111,7 @@ public class NuevoFrame extends javax.swing.JFrame {
             Contraseña nueva = new Contraseña(txtNombre.getText(),
                     txtDescripcion.getText(), txtContraseña.getText(), 'N');
             MainFrame.contraseñas.addCompleto(nueva);
-
+/*
             DefaultTableModel modelo =
                     (DefaultTableModel) MainFrame.getTabla().getModel();
 
@@ -125,7 +125,7 @@ public class NuevoFrame extends javax.swing.JFrame {
             modelo.addRow(fila);
 
             MainFrame.getTabla().setModel(modelo);
-
+*/
             this.dispose();
         }
     }//GEN-LAST:event_btnAgregarActionPerformed
