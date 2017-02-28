@@ -13,9 +13,6 @@ import java.util.StringTokenizer;
 import javax.swing.JOptionPane;
 import datos.Contraseña;
 import graficos.MainFrame;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import sun.rmi.log.ReliableLog;
 
 /**
  *
@@ -70,32 +67,28 @@ public class Lectura_Escritura {
      */
     public static void editar(Contraseña editable, Contraseña nueva) {
         try {
-            RandomAccessFile archivo = new RandomAccessFile("src/archivo/contraseñas", "rw");
-            String linea = archivo.readLine();
-            linea = new String(linea.getBytes("ISO-8859-1"), "UTF-8");
-            long seek = 0;
-
-            while (linea != null && !linea.contains(editable.toString())) {
-                seek = archivo.getFilePointer();
-                linea = archivo.readLine();
-                if (linea != null) {
-                    linea = new String(linea.getBytes("ISO-8859-1"), "UTF-8");
+            File fichero = new File("src/archivo/contraseñas");
+            BufferedReader reader = new BufferedReader(new FileReader(fichero));
+                        
+            StringBuilder texto = new StringBuilder();
+            String linea = reader.readLine();
+            while(linea != null){
+                if(editable.toString().equals(linea)){
+                    texto.append(nueva.toString()).append("\n");
+                }else{
+                    texto.append(linea).append("\n");
                 }
+                linea = reader.readLine();
             }
-
-            if (linea != null) {
-                int len = linea.length();
-                byte[] arreglo = new byte[len];
-
-                for (int i = 0; i < arreglo.length; i++) {
-                    if (i < nueva.toString().length()) {
-                        arreglo[i] = nueva.toString().getBytes()[i];
-                    }
-                }
-                archivo.seek(seek);
-                archivo.write(arreglo);
-            }
-            archivo.close();
+            reader.close();
+            fichero.delete();
+            fichero = new File("src/archivo/contraseñas");
+            fichero.createNewFile();
+            
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fichero.getPath(), true));
+            writer.write(texto.toString());
+            writer.close();
+            
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado");
         } catch (IOException ex) {
@@ -105,23 +98,26 @@ public class Lectura_Escritura {
 
     public static void eliminar(Contraseña borrar) {
         try {
-            RandomAccessFile archivo = new RandomAccessFile("src/archivo/contraseñas", "rw");
-            String linea = archivo.readLine();
-            linea = new String(linea.getBytes("ISO-8859-1"), "UTF-8");
-            long seek = 0;
-            
-            while (linea != null && !linea.contains(borrar.toString())) {
-                seek = archivo.getFilePointer();
-                linea = archivo.readLine();
-                if (linea != null) {
-                    linea = new String(linea.getBytes("ISO-8859-1"), "UTF-8");
+            File fichero = new File("src/archivo/contraseñas");
+            BufferedReader reader = new BufferedReader(new FileReader(fichero));
+                        
+            StringBuilder texto = new StringBuilder();
+            String linea = reader.readLine();
+            while(linea != null){
+                if(!borrar.toString().equals(linea)){
+                    texto.append(linea).append("\n");
                 }
+                linea = reader.readLine();
             }
+            reader.close();
+            fichero.delete();
+            fichero = new File("src/archivo/contraseñas");
+            fichero.createNewFile();
             
-            archivo.seek(seek-1);
-            byte[] ceros = new byte[linea.length()+1];
-            archivo.write(ceros);
-
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fichero.getPath(), true));
+            writer.write(texto.toString());
+            writer.close();
+           
         } catch (FileNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error inesperado");
         } catch (IOException ex) {

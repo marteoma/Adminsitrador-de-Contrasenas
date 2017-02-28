@@ -40,19 +40,6 @@ public final class MainFrame extends javax.swing.JFrame {
             modelo.addRow(fila);
         }
         MainFrame.getTabla().setModel(modelo);
-        
-        
-        tableContraseñas.getModel().addTableModelListener((TableModelEvent e) -> {
-            Contraseña copia = new Contraseña(editable);
-            String contraseñaNueva = (String)tableContraseñas.getModel().getValueAt(
-                            tableContraseñas.getSelectedRow(), 1);
-            contraseñas.Editar(editable, contraseñaNueva);
-            Lectura_Escritura.editar(copia,
-                editable.setContraseña(contraseñaNueva));
-        });
-          
-        
-        
     }
 
     /**
@@ -68,6 +55,7 @@ public final class MainFrame extends javax.swing.JFrame {
         tableContraseñas = new javax.swing.JTable();
         btnAgregar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Administra  Contraseñas");
@@ -85,7 +73,7 @@ public final class MainFrame extends javax.swing.JFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false, false
+                false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -124,6 +112,13 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,11 +126,12 @@ public final class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(53, 53, 53))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(47, 47, 47))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,7 +143,9 @@ public final class MainFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(btnAgregar)
-                        .addGap(59, 59, 59)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditar)
+                        .addGap(18, 18, 18)
                         .addComponent(btnEliminar)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
@@ -192,6 +190,15 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tableContraseñasMouseClicked
 
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        Contraseña copia = new Contraseña(editable);
+            String contraseñaNueva = (String)tableContraseñas.getModel().getValueAt(
+                            tableContraseñas.getSelectedRow(), 1);
+            contraseñas.Editar(editable, contraseñaNueva);
+            Lectura_Escritura.editar(copia,
+                editable.setContraseña(contraseñaNueva));        
+    }//GEN-LAST:event_btnEditarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -231,6 +238,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JScrollPane jScrollPane1;
     private static javax.swing.JTable tableContraseñas;
