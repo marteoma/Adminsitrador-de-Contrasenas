@@ -23,6 +23,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     public static Lista<Contraseña> contraseñas = new Lista<>();
     Contraseña editable = null;
+    private static boolean editando = false;
 
     /**
      * Creates new form MainFrame
@@ -40,6 +41,19 @@ public final class MainFrame extends javax.swing.JFrame {
             modelo.addRow(fila);
         }
         MainFrame.getTabla().setModel(modelo);
+        
+        tableContraseñas.getModel().addTableModelListener((TableModelEvent e) -> {
+            if(editando){
+                Contraseña copia = new Contraseña(editable);
+                String contraseñaNueva = (String)tableContraseñas.getModel().getValueAt(
+                        tableContraseñas.getSelectedRow(), 1);
+                contraseñas.Editar(editable, contraseñaNueva);
+                Lectura_Escritura.editar(copia,
+                        editable.setContraseña(contraseñaNueva));
+                editando = false;
+            }
+        });
+        
     }
 
     /**
@@ -158,6 +172,12 @@ public final class MainFrame extends javax.swing.JFrame {
         ventanaNuevo.setVisible(true);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    /**
+     * Evento de clic en el el botón eliminar
+     * Elimina la contraseña que estaba seleccionada al apretar el boton
+     * O manda un mensaje si no había nada seleccioandao
+     * @param evt 
+     */
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         DefaultTableModel model = (DefaultTableModel) tableContraseñas.getModel();
 
@@ -165,7 +185,10 @@ public final class MainFrame extends javax.swing.JFrame {
         if (a < 0) {
             JOptionPane.showMessageDialog(null,
                     "Debe seleccionar una fila de la tabla");
-        } else {
+        }else if(model.getValueAt(a,3).equals('M')){
+            JOptionPane.showMessageDialog(null,
+                    "No se puede eliminar la contraseña maestra");
+        }else {
             int confirmar = JOptionPane.showConfirmDialog(null,
                     "Esta seguro que desea Eliminar el registro? ");
 
@@ -180,6 +203,11 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    /**
+     * Crea la contraseña editable con la que se trabajaran algunos de los metodos
+     * de cambio de contraseña
+     * @param evt 
+     */
     private void tableContraseñasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableContraseñasMouseClicked
         if(tableContraseñas.getSelectedRow() != -1){
             int row = tableContraseñas.getSelectedRow();
@@ -190,13 +218,13 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tableContraseñasMouseClicked
 
+    /**
+     * Cambia la propiedad editando a true  para decirle al programa que
+     * se editará una contraseña
+     * @param evt 
+     */
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        Contraseña copia = new Contraseña(editable);
-            String contraseñaNueva = (String)tableContraseñas.getModel().getValueAt(
-                            tableContraseñas.getSelectedRow(), 1);
-            contraseñas.Editar(editable, contraseñaNueva);
-            Lectura_Escritura.editar(copia,
-                editable.setContraseña(contraseñaNueva));        
+        editando = true;
     }//GEN-LAST:event_btnEditarActionPerformed
 
     /**

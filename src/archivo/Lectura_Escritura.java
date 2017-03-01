@@ -20,6 +20,9 @@ import graficos.MainFrame;
  */
 public class Lectura_Escritura {
 
+    /**
+     * Lee las contraseñas del archivo
+     */
     public static void cargarContraseña() {
         try {
             BufferedReader lector = new BufferedReader(
@@ -44,6 +47,14 @@ public class Lectura_Escritura {
         }
     }
 
+    /**
+     * Escribe una nueva contraseña en el archivo
+     * @param nombre Nombre de la contraseña nueva
+     * @param descripción Descripción
+     * @param contraseña Contraseña nueva
+     * @param flag identificador
+     * @throws IOException Se arroja cuando hay un problema con el archivo
+     */
     public static void Escribir(String nombre, String descripción, String contraseña, char flag) throws IOException {
 
         BufferedWriter out = null;
@@ -60,8 +71,7 @@ public class Lectura_Escritura {
     }
 
     /**
-     * Edita una contraseña en el archvio
-     *
+     * Edita una contraseña en el archvio     
      * @param editable La contraseña que será editada
      * @param nueva La contraseña como queda editada
      */
@@ -80,6 +90,7 @@ public class Lectura_Escritura {
                 }
                 linea = reader.readLine();
             }
+            texto.deleteCharAt(texto.length()-1);
             reader.close();
             fichero.delete();
             fichero = new File("src/archivo/contraseñas");
@@ -96,6 +107,10 @@ public class Lectura_Escritura {
         }
     }
 
+    /**
+     * Elimina una contraseña del programa 
+     * @param borrar Contraseña que será borrada
+     */
     public static void eliminar(Contraseña borrar) {
         try {
             File fichero = new File("src/archivo/contraseñas");
